@@ -1,6 +1,6 @@
 import React from "react";
 
-import LeetcodeCard from "../components/LeetcodeCard";
+import LeetcodeCard from "../components/LeetCodeCard";
 import CodeChefCard from "../components/CodeChefCard";
 
 function DsaCp() {
