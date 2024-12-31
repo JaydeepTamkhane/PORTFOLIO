@@ -1,10 +1,6 @@
-// codechef
-// https://github.com/deepaksuthar40128/Codechef-API?tab=readme-ov-file
-// https://codechef-api.vercel.app/handle/jaydeeptamkahn
-
-import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { SiCodechef } from "react-icons/si";
+import axios from "axios";
 
 function CodeChefCard() {
   const [codeChefData, setCodeChefData] = useState(null);
@@ -13,43 +9,23 @@ function CodeChefCard() {
 
   const fetchCodeChefData = useCallback(async () => {
     try {
-      const codeChefData = await axios.get(
+      // Fetch fresh data
+      const response = await axios.get(
         "https://codechef-api.vercel.app/handle/jaydeeptamkahn"
       );
-      console.log(codeChefData);
+      const data = response.data;
 
-      localStorage.setItem("codeChefData", JSON.stringify(codeChefData.data));
-      setCodeChefData(codeChefData.data);
+      setCodeChefData(data);
       setLoading(false);
     } catch (e) {
       console.error("Error fetching CodeChef data: ", e);
-      setLoading(false); // End loading on error
-      setError(e.message ? e.message : "Failed to fetch CodeChef data");
+      setError("Failed to load CodeChef data. Please try again later.");
+      setLoading(false);
     }
   }, []);
 
-  // Try to load data from localStorage
   useEffect(() => {
-    const storedData = localStorage.getItem("codeChefData");
-
-    if (storedData) {
-      try {
-        const parsedData = JSON.parse(storedData);
-        setCodeChefData(parsedData); // Set the state from localStorage data if available
-        setLoading(false);
-      } catch (e) {
-        console.error("Failed to parse stored data:", e);
-        fetchCodeChefData(); // Fetch data if stored data is invalid
-      }
-    } else {
-      fetchCodeChefData(); // Fetch data if no stored data is available
-    }
-
-    const intervalId = setInterval(() => {
-      fetchCodeChefData(); // Refetch data every 24 hours (86400000 ms)
-    }, 24 * 60 * 60 * 1000);
-
-    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+    fetchCodeChefData(); // Fetch fresh data when the component mounts
   }, [fetchCodeChefData]);
 
   if (loading) {
@@ -57,10 +33,9 @@ function CodeChefCard() {
   }
 
   if (error) {
-    return <p className="text-center">{error}</p>;
+    return <p className="text-center text-red-500">{error}</p>;
   }
 
-  // Safely access properties only if codeChefData is available
   if (!codeChefData) {
     return <p className="text-center">No CodeChef data available</p>;
   }
@@ -71,7 +46,6 @@ function CodeChefCard() {
         href="https://www.codechef.com/users/jaydeeptamkahn"
         target="_blank"
         rel="noopener noreferrer"
-        className=""
       >
         <SiCodechef className="h-full w-52 sm:w-80 transform rounded-xl object-cover m-4 text-lg transition-all duration-300 hover:scale-105 hover:border-white hover:text-white" />
       </a>
@@ -79,13 +53,14 @@ function CodeChefCard() {
         <h2 className="text-xl font-bold text-center text-gray-200">
           CodeChef
         </h2>
+
         <div className="flex w-full flex-wrap justify-around items-start gap-8 sm:gap-4">
           {/* Profile Data */}
           <div className="flex flex-col gap-2">
             <p className="text-lg font-semibold">Profile Data:</p>
             <p>
               <span className="font-medium">Contests Attended:</span>{" "}
-              {codeChefData.ratingData.length || "N/A"}
+              {codeChefData.ratingData?.length || "N/A"}
             </p>
             <p>
               <span className="font-medium">Current Rating:</span>{" "}
@@ -107,7 +82,6 @@ function CodeChefCard() {
               <span className="font-medium">Stars:</span>{" "}
               {codeChefData.stars || "N/A"}
             </p>
-            
           </div>
         </div>
 

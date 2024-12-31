@@ -1,62 +1,41 @@
-// leetcode
-// https://github.com/alfaarghya/alfa-leetcode-api?tab=readme-ov-file
-
-// the below api gives the complete imformation about the total number of problems solved each easy medium hard
-// and also give the submission calender to generate the headmap if required in future
-// the heatmap is of 1 year
-// https://alfa-leetcode-api.onrender.com/userProfile/jaydeeptamkahne
-// the below endpoint will help us to fetch the data of the leetcode contest rating etc
-// https://alfa-leetcode-api.onrender.com/jaydeeptamkahne/contest
-
 import React, { useState, useEffect, useCallback } from "react";
 import { SiLeetcode } from "react-icons/si";
 import axios from "axios";
 
 function LeetcodeCard() {
-  const [userProfile, setUserProfile] = useState({});
-  const [contestData, setContestData] = useState({});
+  const [userProfile, setUserProfile] = useState(null);
+  const [contestData, setContestData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchLeetCodeData = useCallback(async () => {
     try {
-      const userProfile = await axios.get(
-        "https://alfa-leetcode-api.onrender.com/userProfile/jaydeeptamkahne"
-      );
+      // Fetch fresh data
+      const [userProfileResponse, contestDataResponse] = await Promise.all([
+        axios.get("https://alfa-leetcode-api.onrender.com/userProfile/jaydeeptamkahne"),
+        axios.get("https://alfa-leetcode-api.onrender.com/jaydeeptamkahne/contest"),
+      ]);
 
-      const contestData = await axios.get(
-        "https://alfa-leetcode-api.onrender.com/jaydeeptamkahne/contest"
-      );
-
-      localStorage.setItem("userProfile", JSON.stringify(userProfile.data));
-      localStorage.setItem("contestData", JSON.stringify(contestData.data));
-
-      setUserProfile(userProfile.data);
-      setContestData(contestData.data);
-
+      setUserProfile(userProfileResponse.data);
+      setContestData(contestDataResponse.data);
       setLoading(false);
     } catch (e) {
-      console.error("Error fetching Leetcodedata: ", e);
-      setLoading(false); // End loading on error
-      setError(e.message ? e.message : "Failed to fetch Leetcode data");
+      console.error("Error fetching Leetcode data: ", e);
+      setError("Failed to load data. Please try again later.");
+      setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchLeetCodeData(); // Initial fetch
-    const intervalId = setInterval(() => {
-      fetchLeetCodeData(); // Refetch data every 24 hours (86400000 ms)
-    }, 24 * 60 * 60 * 1000);
-
-    return () => clearInterval(intervalId); // Cleanup interval on component unmount
-  }, []);
+    fetchLeetCodeData(); // Fetch fresh data on every visit
+  }, [fetchLeetCodeData]);
 
   if (loading) {
     return <p className="text-center">Loading LeetCode data...</p>;
   }
 
   if (error) {
-    return <p className="text-center">{error}</p>;
+    return <p className="text-center text-red-500">{error}</p>;
   }
 
   return (
@@ -65,60 +44,55 @@ function LeetcodeCard() {
         href="https://leetcode.com/jaydeeptamkahne/"
         target="_blank"
         rel="noopener noreferrer"
-        className=""
       >
         <SiLeetcode className="h-full w-52 sm:w-80 transform rounded-xl object-cover m-4 text-lg transition-all duration-300 hover:scale-105 hover:border-white hover:text-white" />
       </a>
       <div className="w-full flex flex-col items-center gap-6 p-4 justify-center">
-        <h2 className="text-xl font-bold text-center text-gray-200">
-          LeetCode
-        </h2>
+        <h2 className="text-xl font-bold text-center text-gray-200">LeetCode</h2>
 
         <div className="flex w-full flex-wrap justify-around items-start gap-8 sm:gap-4">
-          {/* Problems Data */}
           <div className="flex flex-col gap-2">
             <p className="text-lg font-semibold">Problems Data:</p>
             <p>
               <span className="font-medium">Easy:</span>{" "}
-              {userProfile.easySolved}/{userProfile.totalEasy}
+              {userProfile?.easySolved ?? 0}/{userProfile?.totalEasy ?? 0}
             </p>
             <p>
               <span className="font-medium">Medium:</span>{" "}
-              {userProfile.mediumSolved}/{userProfile.totalMedium}
+              {userProfile?.mediumSolved ?? 0}/{userProfile?.totalMedium ?? 0}
             </p>
             <p>
               <span className="font-medium">Hard:</span>{" "}
-              {userProfile.hardSolved}/{userProfile.totalHard}
+              {userProfile?.hardSolved ?? 0}/{userProfile?.totalHard ?? 0}
             </p>
             <p>
               <span className="font-medium">Total Solved:</span>{" "}
-              {userProfile.totalSolved}/{userProfile.totalQuestions}
+              {userProfile?.totalSolved ?? 0}/{userProfile?.totalQuestions ?? 0}
             </p>
           </div>
 
-          {/* Contest Data */}
           <div className="flex flex-col gap-2">
             <p className="text-lg font-semibold">Contest Data:</p>
             <p>
               <span className="font-medium">Contests Attended:</span>{" "}
-              {contestData.contestAttend}
+              {contestData?.contestAttend ?? 0}
             </p>
             <p>
               <span className="font-medium">Rating:</span>{" "}
-              {contestData.contestRating.toFixed(2)}
+              {contestData?.contestRating?.toFixed(2) ?? "N/A"}
             </p>
             <p>
               <span className="font-medium">Ranking:</span>{" "}
-              {contestData.contestGlobalRanking}/{contestData.totalParticipants}
+              {contestData?.contestGlobalRanking ?? "N/A"}/
+              {contestData?.totalParticipants ?? "N/A"}
             </p>
             <p>
               <span className="font-medium">Top Percentage:</span>{" "}
-              {contestData.contestTopPercentage}%
+              {contestData?.contestTopPercentage ?? "N/A"}%
             </p>
           </div>
         </div>
 
-        {/* Profile Link */}
         <a
           href="https://leetcode.com/jaydeeptamkahne/"
           target="_blank"
