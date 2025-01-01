@@ -1,32 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useContext } from "react";
 import { SiCodechef } from "react-icons/si";
-import axios from "axios";
+import { DataContext } from "../context/DataContext";
 
 function CodeChefCard() {
-  const [codeChefData, setCodeChefData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchCodeChefData = useCallback(async () => {
-    try {
-      // Fetch fresh data
-      const response = await axios.get(
-        "https://codechef-api.vercel.app/handle/jaydeeptamkahn"
-      );
-      const data = response.data;
-
-      setCodeChefData(data);
-      setLoading(false);
-    } catch (e) {
-      console.error("Error fetching CodeChef data: ", e);
-      setError("Failed to load CodeChef data. Please try again later.");
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchCodeChefData(); // Fetch fresh data when the component mounts
-  }, [fetchCodeChefData]);
+  const { codeChefData, loading, error } = useContext(DataContext);
 
   if (loading) {
     return <p className="text-center">Loading CodeChef data...</p>;

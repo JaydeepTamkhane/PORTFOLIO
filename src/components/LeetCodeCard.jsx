@@ -1,34 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useContext } from "react";
 import { SiLeetcode } from "react-icons/si";
-import axios from "axios";
+import { DataContext } from "../context/DataContext";
 
 function LeetcodeCard() {
-  const [userProfile, setUserProfile] = useState(null);
-  const [contestData, setContestData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchLeetCodeData = useCallback(async () => {
-    try {
-      // Fetch fresh data
-      const [userProfileResponse, contestDataResponse] = await Promise.all([
-        axios.get("https://alfa-leetcode-api.onrender.com/userProfile/jaydeeptamkahne"),
-        axios.get("https://alfa-leetcode-api.onrender.com/jaydeeptamkahne/contest"),
-      ]);
-
-      setUserProfile(userProfileResponse.data);
-      setContestData(contestDataResponse.data);
-      setLoading(false);
-    } catch (e) {
-      console.error("Error fetching Leetcode data: ", e);
-      setError("Failed to load data. Please try again later.");
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchLeetCodeData(); // Fetch fresh data on every visit
-  }, [fetchLeetCodeData]);
+  const { leetcodeData, loading, error } = useContext(DataContext);
 
   if (loading) {
     return <p className="text-center">Loading LeetCode data...</p>;
@@ -37,6 +12,8 @@ function LeetcodeCard() {
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
   }
+
+  const { userProfile, contestData } = leetcodeData;
 
   return (
     <div className="transform mt-4 flex w-full flex-col lg:flex-row items-center gap-8 overflow-hidden rounded-xl border-2 border-gray-600 text-lg transition-all duration-300 hover:scale-105 hover:border-white hover:text-gray-200">
@@ -48,7 +25,9 @@ function LeetcodeCard() {
         <SiLeetcode className="h-full w-52 sm:w-80 transform rounded-xl object-cover m-4 text-lg transition-all duration-300 hover:scale-105 hover:border-white hover:text-white" />
       </a>
       <div className="w-full flex flex-col items-center gap-6 p-4 justify-center">
-        <h2 className="text-xl font-bold text-center text-gray-200">LeetCode</h2>
+        <h2 className="text-xl font-bold text-center text-gray-200">
+          LeetCode
+        </h2>
 
         <div className="flex w-full flex-wrap justify-around items-start gap-8 sm:gap-4">
           <div className="flex flex-col gap-2">
