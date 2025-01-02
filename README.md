@@ -34,6 +34,50 @@ A **React.js** portfolio website showcasing personal projects, skills, and profe
 
 ---  
 
+## Installation and Setup  
+
+### Prerequisites  
+- [Node.js](https://nodejs.org/) installed on your system.  
+- Basic knowledge of React.js and Tailwind CSS.  
+
+### Steps  
+#### 1. Clone the repository  
+```bash  
+git clone https://github.com/your-username/portfolio.git  
+cd portfolio  
+```  
+
+#### 2. Install dependencies  
+```bash  
+npm install  
+```  
+
+#### 3. Run the development server  
+```bash  
+npm run dev  
+```  
+Navigate to `http://localhost:5173` to view the application in your browser.  
+
+---  
+
+## Screenshots  
+### 1. Home Page  
+A clean and professional landing page:  
+![Home Page](./src/assets/readme_images/ProfilePage.png)  
+
+### 2. Projects Section  
+Showcases detailed project information:  
+![Projects Section](./src/assets/readme_images/ProjectsPage.png)
+
+### 3. Dsa&Cp Section  
+Showcases detailed DSA and CP information:  
+![Projects Section](./src/assets/readme_images/DsaCpPage.png)
+
+### 4. Contact Page  
+Functional form for user inquiries:  
+![Contact Page](./src/assets/readme_images/ContactPage.png)  
+
+---  
 ## Folder Structure  
 
 ```plaintext  
@@ -87,51 +131,6 @@ Portfolio/
 │  
 └── package.json                # Dependencies and scripts  
 ```  
-
----  
-
-## Installation and Setup  
-
-### Prerequisites  
-- [Node.js](https://nodejs.org/) installed on your system.  
-- Basic knowledge of React.js and Tailwind CSS.  
-
-### Steps  
-#### 1. Clone the repository  
-```bash  
-git clone https://github.com/your-username/portfolio.git  
-cd portfolio  
-```  
-
-#### 2. Install dependencies  
-```bash  
-npm install  
-```  
-
-#### 3. Run the development server  
-```bash  
-npm run dev  
-```  
-Navigate to `http://localhost:5173` to view the application in your browser.  
-
----  
-
-## Screenshots  
-### 1. Home Page  
-A clean and professional landing page:  
-![Home Page](./src/assets/readme_images/ProfilePage.png)  
-
-### 2. Projects Section  
-Showcases detailed project information:  
-![Projects Section](./src/assets/readme_images/ProjectsPage.png)
-
-### 3. Dsa&Cp Section  
-Showcases detailed DSA and CP information:  
-![Projects Section](./src/assets/readme_images/DsaCpPage.png)
-
-### 4. Contact Page  
-Functional form for user inquiries:  
-![Contact Page](./src/assets/readme_images/ContactPage.png)  
 
 ---  
 
