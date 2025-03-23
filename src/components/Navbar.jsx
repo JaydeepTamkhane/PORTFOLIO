@@ -14,7 +14,7 @@ function Navbar() {
   ];
 
   return (
-    <div className="bg-pin fixed top-0 z-50 flex w-full items-center justify-between bg-black px-10 md:px-20 lg:px-32">
+    <div className="bg-pin fixed top-0 z-50 flex w-full items-center justify-between bg-black px-10 md:px-20 lg:px-32 border-b-2 border-gray-600 ">
       <div className="flex items-center justify-between sm:gap-2">
         <div className="h-12 w-12">
           <img src={logo} alt="logo" />
