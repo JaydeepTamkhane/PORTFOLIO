@@ -1,11 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 
 function ContactForm() {
   const form = useRef();
+  const [message, setMessage] = useState("");
 
   const sendEmail = (e) => {
     e.preventDefault();
+
+    setMessage("Message is being sent...");
 
     emailjs
       .sendForm(
@@ -17,12 +20,12 @@ function ContactForm() {
       .then(
         () => {
           console.log("SUCCESS!");
-          alert("Email sent successfully!");
+          setMessage("Message sent successfully!");
           form.current.reset();
         },
         (error) => {
           console.error("FAILED...", error.text);
-          alert("Failed to send the email. Please try again.");
+          setMessage("Failed to send the message. Please try again.");
         }
       );
   };
@@ -67,6 +70,12 @@ function ContactForm() {
           Send
         </button>
       </form>
+
+      {/* Message display */}
+      {message && (
+        <p className="text-center text-lg text-white mb-8">{message}</p>
+      )}
+
       <div className="mx-auto flex w-full max-w-lg flex-wrap items-center justify-between gap-4 bg-black md:max-w-2xl lg:max-w-3xl">
         <div className="flex min-w-[180px] flex-1 items-center justify-center rounded-md border-2 border-gray-600 py-2 text-sm transition-colors duration-150 hover:border-white hover:text-gray-100 sm:min-w-[220px] sm:text-base md:p-3">
           jaydeeptamkahne@gmail.com
@@ -89,3 +98,4 @@ function ContactForm() {
 }
 
 export default ContactForm;
+
