@@ -3,9 +3,9 @@ import { FaLink } from "react-icons/fa";
 
 function DsaCp() {
   return (
-    <div className="flex flex-col md:flex-row gap-8 min-h-[calc(100vh-8rem)]">
+    <div className="flex flex-col md:flex-row gap-8 items-center justify-center px-4 py-6 ">
       {/* LeetCode Card */}
-      <div className="flex flex-col justify-start items-center gap-6 transform transition-all duration-300 hover:scale-105 hover:border-white hover:shadow-lg border-2 border-gray-600 rounded-xl w-full max-w-2xl mx-auto p-6 text-gray-200 md:min-h-[500px]">
+      <div className="flex flex-col justify-between items-center gap-6 transform transition-all duration-300 hover:scale-105 hover:border-white hover:shadow-lg border-2 border-gray-600 rounded-xl w-[90%] sm:w-full max-w-2xl p-6 text-gray-200 md:min-h-[500px]">
         <img
           src="https://leetcard.jacoblin.cool/jaydeeptamkahne?theme=dark&ext=contest"
           alt="LeetCode Stats"
@@ -23,7 +23,7 @@ function DsaCp() {
       </div>
 
       {/* CodeChef Card */}
-      <div className="flex flex-col justify-start items-center gap-6 transform transition-all duration-300 hover:scale-105 hover:border-white hover:shadow-lg border-2 border-gray-600 rounded-xl w-full max-w-2xl mx-auto p-6 text-gray-200 md:min-h-[500px]">
+      <div className="flex flex-col justify-between items-center gap-6 transform transition-all duration-300 hover:scale-105 hover:border-white hover:shadow-lg border-2 border-gray-600 rounded-xl w-[90%] sm:w-full max-w-2xl p-6 text-gray-200 md:min-h-[500px]">
         <img
           src="https://codechef-readme-stats.onrender.com/jaydeeptamkahn?v=1"
           alt="CodeChef Stats"
